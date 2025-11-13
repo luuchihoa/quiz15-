@@ -67,12 +67,19 @@
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
   }
+  h2.section-title {
+    text-align: center;
+    color: #065f46;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
 </style>
 
 </head>
 <body>
   <div class="quiz-box">
     <h2 class="text-center mb-4">Bài kiểm tra 15'</h2>
+    <h2 class="section-title">PHẦN TRẮC NGHIỆM</h2>
     <div id="quiz-content"></div>
     <p class="timer text-center mt-3">Thời gian còn lại: <span id="time">30</span> giây</p>
   </div>
@@ -161,10 +168,11 @@
 
     // ======== TỰ LUẬN =========
     function showEssayPart() {
+      document.querySelector(".timer").style.display = "none";
+      document.querySelector(".section-title").textContent = "PHẦN TỰ LUẬN";
       quizContent.innerHTML = `<h5>${essayQuestion.text}</h5>
         <textarea id="essay" class="form-control mt-3" rows="4" placeholder="Nhập câu trả lời của bạn..."></textarea>
         <button id="submitEssay" class="btn btn-primary mt-3 w-100">Nộp bài</button>`;
-      document.querySelector(".timer").style.display = "none";
       document.getElementById("submitEssay").addEventListener("click", checkEssay);
     }
 
