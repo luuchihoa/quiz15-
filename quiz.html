@@ -6,73 +6,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    background-image: url('cryptobaby.jpg'); /* ảnh nền bạn tải lên */
-    background-size: cover;          /* ảnh phủ toàn màn hình */
-    background-repeat: no-repeat;
-    background-attachment: fixed;    /* cố định khi cuộn */
-    background-position: center;
-    backdrop-filter: blur(2px);      /* làm mờ nhẹ phía sau */
-    margin: 0;
-    padding: 0;
-  }
-
-  .quiz-box {
-    max-width: 700px;
-    margin: 50px auto;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    padding: 30px;
-  }
-
-  .choice {
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 12px 16px;
-    margin-bottom: 10px;
-    background: #fff7ed; /* màu cam nhạt */
-    transition: 0.3s;
-  }
-
-  .choice:hover {
-    background-color: #fde68a;
-    cursor: pointer;
-    transform: scale(1.02);
-  }
-
-  .choice.correct {
-    background-color: #bbf7d0;
-    border-color: #10b981;
-    color: #065f46;
-  }
-
-  .choice.wrong {
-    background-color: #fecaca;
-    border-color: #ef4444;
-    color: #7f1d1d;
-  }
-
-  .timer {
-    font-weight: bold;
-    color: #dc3545;
-  }
-
-  .blink {
-    animation: blinkEffect 0.3s ease-in-out 3;
-  }
-
-  @keyframes blinkEffect {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
-</style>
-
+    body { background-color: #f8fafc; font-family: 'Segoe UI', sans-serif; }
+    .quiz-box { max-width: 700px; margin: 50px auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); padding: 30px; }
+    .choice { border: 1px solid #d0d7de; border-radius: 8px; padding: 10px 15px; margin-bottom: 10px; background: #fff; transition: 0.2s; text-align: left; }
+    .choice:hover { background-color: #eef2ff; cursor: pointer; transform: scale(1.01); }
+    .choice.correct { background-color: #d1fae5; border-color: #10b981; color: #065f46; }
+    .choice.wrong { background-color: #fee2e2; border-color: #ef4444; color: #7f1d1d; }
+    .timer { font-weight: bold; color: #dc3545; }
+    .answer-box { border: 1px solid #d0d7de; border-radius: 8px; padding: 10px; margin-bottom: 10px; background: #f5f5f5; }
+  </style>
 </head>
 <body>
   <div class="quiz-box">
-    <h2 class="text-center mb-4">Bài kiểm tra 15'</h2>
+    <h3 class="text-center mb-4">Bài kiểm tra Phụng Vụ</h3>
     <div id="quiz-content"></div>
     <p class="timer text-center mt-3">Thời gian còn lại: <span id="time">30</span> giây</p>
   </div>
@@ -93,10 +39,9 @@
     ];
 
     const essayQuestion = {
-      text: "PHẦN TỰ LUẬN",
-      text: "Phụng vụ là gì?",
+      text: "Câu 4. Phụng vụ là gì?",
       keywords: [
-        { word: ["thờ phượng Thiên Chúa"], point: 2 },
+        { word: ["thờ phượng", "Thiên húa"], point: 2 },
         { word: ["công khai"], point: 1.5 },
         { word: ["chính thức"], point: 1.5 }
       ],
@@ -131,28 +76,16 @@
     }
 
     function handleAnswer(selectedKey, element) {
-  clearInterval(timer);
-  const q = questions[current];
-  userAnswers.push({ question: q.text, selected: selectedKey, correct: q.correct });
-
-  const allChoices = document.querySelectorAll(".choice");
-  allChoices.forEach(btn => {
-    btn.style.pointerEvents = "none";
-    if (btn.dataset.key === q.correct) btn.classList.add("correct");
-    else if (btn.dataset.key === selectedKey) btn.classList.add("wrong");
-  });
-
-  // Nếu đúng, cộng điểm
-  if (selectedKey === q.correct) scoreChoice++;
-
-  // Hiệu ứng nhấp nháy đáp án đúng 3 lần
-  const correctEl = [...allChoices].find(btn => btn.dataset.key === q.correct);
-  correctEl.classList.add("blink");
-
-  // Sau khi nhấp nháy xong (khoảng 900ms), chuyển câu
-  setTimeout(nextQuestion, 900);
-}
-
+      clearInterval(timer);
+      const q = questions[current];
+      userAnswers.push({ question: q.text, selected: selectedKey, correct: q.correct });
+      document.querySelectorAll(".choice").forEach(btn => {
+        btn.classList.add(btn.dataset.key === q.correct ? "correct" : "wrong");
+        btn.style.pointerEvents = "none";
+      });
+      if(selectedKey === q.correct) scoreChoice++;
+      setTimeout(nextQuestion, 1200);
+    }
 
     function nextQuestion() {
       current++;
@@ -208,3 +141,4 @@
   </script>
 </body>
 </html>
+
